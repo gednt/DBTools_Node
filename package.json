@@ -1,0 +1,14 @@
+{
+  "name": "dmf-dbtools-node",
+  "version": "1.0.0",
+  "description": "A MySql Wrapper",
+  "main": "DBTools_Main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Felipe Coelho",
+  "license": "ISC",
+  "dependencies": {
+    "mysql2": "^2.3.3"
+  }
+}
