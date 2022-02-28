@@ -20,9 +20,9 @@
     this.Results = [];
   }
 
-  connection = () => {
-    var db = require("mysql2");
-    var connect = db.createPool({
+  connection = async () => {
+    var db = require("mysql2/promise");
+    var connect = await db.createConnection({
       host: this.host,
       user: this.uid,
       password: this.password,
@@ -35,19 +35,13 @@
   //Executes the Query
   //
   async executeSqlQuery(query) {
-    var conn = this.connection();
-    var results = [];
-    this.Results = results;
     try {
-      // now get a Promise wrapped instance of that pool
-      const promisePool = conn.promise();
-      // query database using promises
-      const [rows, fields] = await promisePool.query(query);
-      //console.log("Internally" + rows);
-      return [rows, fields];
-    } catch (exception) {
-      console.log(exception);
-      return [-1, "Erro " + exception.message];
+      var conn = await this.connection();
+      const [rows, fields] = await conn.execute(query);
+      conn.end();
+      return [fields, rows];
+    } catch (error) {
+      return [-1, error];
     }
   }
 };
