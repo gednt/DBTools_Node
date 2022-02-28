@@ -1,4 +1,4 @@
-module.exports = class DBTools {
+﻿module.exports = class DBTools {
   /**
    * Initiates an instance of the DBTools class
    * @param {*} host
@@ -38,12 +38,16 @@ module.exports = class DBTools {
     var conn = this.connection();
     var results = [];
     this.Results = results;
-
-    // now get a Promise wrapped instance of that pool
-    const promisePool = conn.promise();
-    // query database using promises
-    const [rows, fields] = await promisePool.query(query);
-    //console.log("Internally" + rows);
-    return [rows, fields];
+    try {
+      // now get a Promise wrapped instance of that pool
+      const promisePool = conn.promise();
+      // query database using promises
+      const [rows, fields] = await promisePool.query(query);
+      //console.log("Internally" + rows);
+      return [rows, fields];
+    } catch (exception) {
+      console.log(exception);
+      return [-1, "Erro " + exception.message];
+    }
   }
 };
